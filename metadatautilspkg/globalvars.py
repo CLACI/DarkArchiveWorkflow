@@ -1,24 +1,24 @@
 # -*- coding: utf-8 -*-
 
 # BSD 3-Clause License
-# 
+#
 # Copyright (c) 2017, ColoredInsaneAsylums
 # All rights reserved.
-# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
-# 
+#
 # * Redistributions of source code must retain the above copyright notice, this
 #   list of conditions and the following disclaimer.
-# 
+#
 # * Redistributions in binary form must reproduce the above copyright notice,
 #   this list of conditions and the following disclaimer in the documentation
 #   and/or other materials provided with the distribution.
-# 
+#
 # * Neither the name of the copyright holder nor the names of its
 #   contributors may be used to endorse or promote products derived from
 #   this software without specific prior written permission.
-# 
+#
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 # AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 # IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -32,7 +32,7 @@
 
 # CREDITS
 # Creator: Nitin Verma (nitin dot verma at utexas dot edu)
-# 
+#
 
 import sys
 import os
@@ -40,7 +40,7 @@ import os
 # DECLARE GLOBALS AND THEIR DEFAULT VALUES
 ext = "*"  # Extension, with a default value of *
 move = False  # If move is True, the copying will be destructive
-batchMode = False  # If copying/moving will be done in a batch (with a -f 
+batchMode = False  # If copying/moving will be done in a batch (with a -f
                    # option). Disabled by default.
 csvFile = ""  # Path to the CSV file
 quietMode = False  # Quiet output mode, disabled by default
@@ -49,7 +49,7 @@ transferList = []  # List of source-dest pairs to be processed. Each pair would
                    # and DESTINATION at index 1.
 errorList = []  # List of source-dest pairs for which
                                          # errors were encountered during
-                                         # processing. Is a subset of 
+                                         # processing. Is a subset of
                                          # transferList.
 
 minNumCols = 2  # The minimum no. of columns that should be present in each row
@@ -91,3 +91,5 @@ UNIQUE_ID_METHOD = "uuid.uuid4()"
 ARRANGEMENT_INFO_MARKER = "arrange:"
 ARRANGEMENT_INFO_LABEL = "arrangementInfo"
 ARRANGEMENT_INFO_LABEL_SUFFIX = "Label"
+
+COMPLIANCE_INFO_MARKER = "compliance:"
