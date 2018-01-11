@@ -1,24 +1,24 @@
 # -*- coding: utf-8 -*-
 
 # BSD 3-Clause License
-# 
+#
 # Copyright (c) 2017, ColoredInsaneAsylums
 # All rights reserved.
-# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
-# 
+#
 # * Redistributions of source code must retain the above copyright notice, this
 #   list of conditions and the following disclaimer.
-# 
+#
 # * Redistributions in binary form must reproduce the above copyright notice,
 #   this list of conditions and the following disclaimer in the documentation
 #   and/or other materials provided with the distribution.
-# 
+#
 # * Neither the name of the copyright holder nor the names of its
 #   contributors may be used to endorse or promote products derived from
 #   this software without specific prior written permission.
-# 
+#
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 # AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 # IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -32,7 +32,7 @@
 
 # CREDITS
 # Creator: Nitin Verma (nitin dot verma at utexas dot edu)
-# 
+#Update: Sanchit Singhal  (sanchit at utexas dot edu)
 
 import json
 import pymongo
@@ -41,6 +41,7 @@ import os
 import metadatautilspkg.globalvars as globalvars
 import metadatautilspkg.errorcodes as errorcodes
 from metadatautilspkg.metadatautils import *
+from metadatautilspkg.compliancemetadatautils import *
 
 
 dbConfFileName = os.path.join(globalvars.configDir, "dbconf.json")
@@ -51,10 +52,10 @@ def init_db():
     Arguments:
         none
 
-    Reads the DB Configuration file, creates a connection to the database, 
+    Reads the DB Configuration file, creates a connection to the database,
     and returns a handle to the connected database
     """
-    
+
     try:
         dbConfigJson = open(dbConfFileName, "r").read()
     except IOError as exception:
@@ -98,7 +99,7 @@ def insertRecordInDB(metadataRecord):
         metadataRecord: the metadata record to be inserted
 
     This function creates a database entry pertaining to the file being transferred.
-    
+
     """
 
     try:
@@ -107,7 +108,7 @@ def insertRecordInDB(metadataRecord):
         print_error(ExceptionPyMongoError)
         print_error(errorcodes.ERROR_CANNOT_INSERT_INTO_DB["message"])
         return(errorcodes.ERROR_CANNOT_INSERT_INTO_DB["code"])
-    
+
     return(str(dbInsertResult.inserted_id))
 
 
@@ -122,7 +123,7 @@ def deleteRecordFromDB(id):
     """
 
     retVal = globalvars.dbHandle[globalvars.dbCollection].delete_one({'_id': id})
-    
+
     if retVal.deleted_count != 1:
         print_error(errorcodes.ERROR_CANNOT_REMOVE_RECORD_FROM_DB["message"])
         exit(errorcodes.ERROR_CANNOT_REMOVE_RECORD_FROM_DB["code"])
@@ -136,7 +137,7 @@ def getHighestSerialNo(dirName):
 
     This function finds the highest serial number corresponding to the specified dirName.
     dirName is expected to match one of the fields called "originalName" in the PREMIS entity.
-    
+
     """
 
     queryField = ".".join([globalvars.labels.pres_entity.name, globalvars.labels.obj_entity.name, globalvars.labels.obj_orig_name.name])
@@ -149,3 +150,50 @@ def getHighestSerialNo(dirName):
     else:
         serialNos = [int(record[globalvars.labels.admn_entity.name][globalvars.labels.arrangement.name][globalvars.labels.serial_nbr.name]) for record in records]
         return max(serialNos)
+
+def getDocumentsFromDB(series, subseries):
+    """getDocumentsFromDB
+
+    Arguments:
+        [1] = series
+        [2] = sub-series
+
+    This function retreives the IDs of the documents that match the series, sub-series pair
+
+    """
+    try:
+        ids = []
+        seriesLabel =  ".".join([globalvars.labels.admn_entity.name, globalvars.labels.arrangement.name, globalvars.labels.seriesLabel.name])
+        sub_seriesLabel = ".".join([globalvars.labels.admn_entity.name, globalvars.labels.arrangement.name, globalvars.labels.sub_seriesLabel.name])
+        selectresult = globalvars.dbHandle[globalvars.dbCollection].find({seriesLabel:  series, sub_seriesLabel:  subseries}, {"_id": 1, "seriesLabel": 1, "sub-seriesLabel": 1})
+
+        for i in selectresult:
+            ids.append(i)
+
+    except pymongo.errors.PyMongoError as ExceptionPyMongoError:
+        print_error(ExceptionPyMongoError)
+        print_error(errorcodes.ERROR_CANNOT_SELECT_FROM_DB["message"])
+        return(errorcodes.ERROR_CANNOT_SELECT_FROM_DB["code"])
+
+    return ids
+
+def updateDocumentsfromDB(ids, metadataRecord):
+    """getDocumentsFromDB
+
+    Arguments:
+        [1] = ids
+        [2] = metadataRecord
+
+    This function updates documents in the DB based on the ids
+
+    """
+    try:
+        globalvars.dbHandle[globalvars.dbCollection].update_one(
+        {'_id': ids},
+        {'$push': {'compliance' : metadataRecord}}
+        )
+
+    except pymongo.errors.PyMongoError as ExceptionPyMongoError:
+        print_error(ExceptionPyMongoError)
+        print_error(errorcodes.ERROR_CANNOT_UPDATE_DB["message"])
+        return(errorcodes.ERROR_CANNOT_UPDATE_DB["code"])

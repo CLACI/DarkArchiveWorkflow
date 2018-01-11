@@ -1,8 +1,9 @@
-
-{   
+{
     "admn_entity": {"name": "admin", "oblg": "M", "rpt": "NR"},
     "arrangement": {"name": "arrangement", "oblg": "O", "rpt": "NR"},
     "serial_nbr": {"name": "serialNo", "oblg": "M", "rpt": "NR"},
+    "seriesLabel": {"name": "seriesLabel", "oblg": "M", "rpt": "NR"},
+    "sub_seriesLabel": {"name": "sub-seriesLabel", "oblg": "M", "rpt": "NR"},
 
     "pres_entity": {"name": "premis", "oblg": "M", "rpt": "NR"},
 
@@ -53,5 +54,26 @@
     "evt_lnk_agnt_id": {"name": "linkingAgentIdentifier", "oblg": "O", "rpt": "NR"},
     "evt_lnk_agnt_id_typ": {"name": "linkingAgentIdentifierType", "oblg": "M", "rpt": "NR"},
     "evt_lnk_agnt_id_val": {"name": "linkingAgentIdentifierValue", "oblg": "M", "rpt": "NR"},
-    "evt_lnk_agnt_id_role": {"name": "linkingAgentIdentifierRole", "oblg": "O", "rpt": "NR"}
+    "evt_lnk_agnt_id_role": {"name": "linkingAgentIdentifierRole", "oblg": "O", "rpt": "NR"},
+
+    "com_record_type": {"name": "recordType", "oblg": "M", "rpt": "NR"},
+    "com_retention_schedule": {"name": "retentionSchedule", "oblg": "M", "rpt": "NR"},
+    "com_disposition": {"name": "disposition", "oblg": "M", "rpt": "NR"},
+    "com_access": {"name": "demographic", "oblg": "M", "rpt": "NR"},
+
+    "com_rt_init_event": {"name": "initiatingEvent", "oblg": "O", "rpt": "NR"},
+    "com_rt_duration": {"name": "duration", "oblg": "O", "rpt": "NR"},
+    "com_rt_term_event": {"name": "terminatingEvent", "oblg": "O", "rpt": "NR"},
+
+    "com_disp_method": {"name": "method", "oblg": "O", "rpt": "NR"},
+
+    "com_url": {"name": "url", "oblg": "O", "rpt": "NR"},
+    "com_eff_date": {"name": "effectiveDate", "oblg": "O", "rpt": "NR"},
+    "com_notes": {"name": "notes", "oblg": "O", "rpt": "NR"},
+
+    "com_authority": {"name": "authority", "oblg": "M", "rpt": "NR"},
+    "com_auth_name": {"name": "name", "oblg": "M", "rpt": "NR"},
+    "com_auth_url": {"name": "url", "oblg": "O", "rpt": "NR"},
+    "com_auth_aff": {"name": "affiliation", "oblg": "O", "rpt": "NR"}
+
 }
