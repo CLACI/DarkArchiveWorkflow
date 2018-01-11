@@ -32,6 +32,7 @@
 
 # CREDITS
 # Creator: Nitin Verma (nitin dot verma at utexas dot edu)
+# Update: Sanchit Singhal  (sanchit at utexas dot edu)
 #
 
 import sys
@@ -54,13 +55,17 @@ errorList = []  # List of source-dest pairs for which
 
 minNumCols = 2  # The minimum no. of columns that should be present in each row
                 # of the CSV file. Determined by the header row.
+complianceList= [] #List of series and sub-series that need their compliance information
+                        #updated. Each pair would be a two-element list, with series at index 0.
+                        #and sub-series at index 1.
+complianceErrorList = [] #List of series, sub-series for which errors occured - subset of complianceList
 
 
 # DATABASE VARIABLES
 dbHandle = None # Stores the handle to access the database. Initialized to None.
 dbCollection = None
 
-configDir = "/usr/share/darkarchive"
+configDir = "/export/home/u17/ss84657/workspace/DarkArchiveWorkflow/config"
 
 # LABEL DICTIONARIES
 labelsFileName = os.path.join(configDir, "labels.json")
@@ -73,6 +78,8 @@ vocab = {}
 # CSV FILE RELATED CONSTANTS
 CSV_COL_1_NAME = "source"
 CSV_COL_2_NAME = "destination"
+CSV_COM_COL_1_NAME = "series"
+CSV_COM_COL_2_NAME = "sub-series"
 
 # METADATA-RELATED CONSTANTS
 OBJ_ID_TYPE = "UUID"
@@ -93,3 +100,4 @@ ARRANGEMENT_INFO_LABEL = "arrangementInfo"
 ARRANGEMENT_INFO_LABEL_SUFFIX = "Label"
 
 COMPLIANCE_INFO_MARKER = "compliance:"
+COMPLIANCE_INFO_LABEL_SUFFIX = "Label"

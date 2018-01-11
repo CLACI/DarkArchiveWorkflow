@@ -1,4 +1,5 @@
 {
+
     "evtTyp": {
         "accession": "accession",
         "filenameChg": "filenameChange",
@@ -14,4 +15,5 @@
     },
 
     "objCat": "file"
+
 }
